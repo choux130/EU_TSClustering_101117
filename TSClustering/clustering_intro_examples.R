@@ -8,6 +8,7 @@ sim_d = data.frame(A$X)
 sim_d$true_cluster = A$id
 plot(sim_d[,1:2], main = "Simulated Clustering Data")
 plot(sim_d[,1:2], col = sim_d$true_cluster, main = "Simulated Clustering Data")
+View(sim_d)
 
 #### K-means Animation ####
 # https://yihui.name/animation/example/kmeans-ani/
@@ -22,7 +23,7 @@ saveGIF({
   set.seed(123)
   kmeans.ani(sim_d[,1:2], centers = 4, pch = 1:4,  col = 1:4, 
              hints = c("Get the new center points", "Update cluster to the nearest one"))
-}, movie.name = "kmeans.gif", interval = 3, nmax = 30, ani.width = 600)
+}, movie.name = "kmeans.gif", interval = 2, nmax = 30, ani.width = 600)
 
 #### Things need to be noticed ####
 #### You won’t always get the same results. So, do it more times! ####
@@ -139,7 +140,7 @@ saveGIF({
     print(ggplot(subset(d_all_long, stock %in% unique(d_all_long$stock)[1:i]), 
            aes(x = Date, y = price, group = stock, color = stock)) + 
     geom_line() + guides(col = guide_legend(keywidth = 1, keyheight = 0.5) ))
-}, movie.name = "stock.gif", interval = 0.5)
+}, movie.name = "stock.gif", interval = 0.1)
 
 #### Results ####
 # data preparation
