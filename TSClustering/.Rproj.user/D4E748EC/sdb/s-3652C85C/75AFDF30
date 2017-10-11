@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#### Simulated time series data ####\nlibrary(forecast)\nlibrary(tidyverse)\n#### kml ####\nex3 <- generateArtificialLongData(\n  meanTrajectories=list(function(t)0,function(t)-t,function(t)t),\n  nbEachClusters=c(30,20,10),\n  residualVariation=function(t){rnorm(1,0,3)}\n)\npart3 <- partition(rep(1:3,c(30,20,10)))\npart3[\"clusters\"]\nplot(ex3,parTraj=parTRAJ(col=rep(2:4,c(30,20,10))))\n\n#### kmeans ####\ndd = data.frame(ex3[\"traj\"]) # 140 11\nk.max <- 15\nwss <- sapply(1:k.max, \n              function(k){kmeans(dd, k, nstart=50, iter.max = 15 )$tot.withinss})\nwss\nplot(1:k.max, wss,\n     type=\"b\", pch = 19, frame = FALSE, \n     xlab=\"Number of clusters K\",\n     ylab=\"Total within-clusters sum of squares\")\n\nkkk = kml(ex3)\nplot(ex3, 3, toPlot=\"both\")\n\ngetClusters(ex3, 3)\n\n\ndd_m = dist(dd, method = \"euclidean\")\nplot(hclust(dd_m))\n\n#### dtwclust ####\nlibrary(dtwclust)\ndd_t = data.frame(t(dd))\ndd_t = rownames_to_column(dd_t)\ndd_t_long = gather(dd_t, key = \"rowname\", value = \"value\")\nnames(dd_t_long) = c(\"time\",\"subject\", \"value\")\ndd_t_list = split(dd_t_long, dd_t_long$subject)\ndd_t_list = lapply(dd_t_list, function(x) x[,\"value\"])\n\n# Reinterpolate series to equal length and normalize\nseries <- zscore(dd_t_list)\npc.dtwlb = tsclust(series, k = 3, \n        distance = \"dtw_lb\", centroid = \"pam\", \n        seed = 3247, trace = TRUE,\n        control = partitional_control(pam.precompute = FALSE),\n        args = tsclust_args(dist = list(window.size = 20L)))\nplot(pc.dtwlb)\n\n# dtw\nlibrary(dtw)\ndmatrix = dist(series, method = \"dtw\")\nhc = hclust(dmatrix, method=\"average\")\nplot(hc, main=\"\")\n\n# TSclust\nlibrary(TSclust)\nplot(diss(series[c(1:10)], \"COR\"))\n",
+    "created" : 1507690173194.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1161513037",
+    "id" : "75AFDF30",
+    "lastKnownWriteTime" : 1507513597,
+    "last_content_update" : 1507513597,
+    "path" : "~/Box Sync/EngineeringUniversity/TSClustering_101117/TSClustering/tsclustering_intro.R",
+    "project_path" : "tsclustering_intro.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

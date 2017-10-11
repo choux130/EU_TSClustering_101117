@@ -1,0 +1,8 @@
+"0","d_comp_t$clust_1 = getClusters(cld, 3)"
+"0","d_clut = d_comp_t[,c('rowname','clust_1')]"
+"0","names(d_clut) = c(""stock"", ""clust_1"")"
+"0","# transform to long data and do visualization"
+"0","d_comp_long= merge(d_comp_long, d_clut, by = ""stock"","
+"0","                           all.x = TRUE)"
+"0","ggplot(d_comp_long, aes(x = Date, y = price, color = stock )) + "
+"0","  geom_line() + facet_grid(clust_1 ~. , scales = ""free"")"

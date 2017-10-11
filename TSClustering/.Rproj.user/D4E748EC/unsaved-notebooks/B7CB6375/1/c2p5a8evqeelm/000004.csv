@@ -1,0 +1,2 @@
+"0","p_comp_norm = ggplot(d_comp_norm_long, aes(x = Date, y = price, group = stock, color = stock)) + geom_line()"
+"0","p_comp_norm"
