@@ -183,6 +183,7 @@ clust_cor  = d_all_t[,c('rowname','clust_cor')]
 names(clust_cor) = c("stock", "clust_cor")
 
 # dtw 
+library(dtw)
 dst_dtw  = dist(d, method= "DTW")
 hc <- hclust(dst_dtw)
 plot(hc, cex = 0.6)
